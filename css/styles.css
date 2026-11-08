@@ -28,8 +28,39 @@ html {
 	}
 }
 
-.icons-social i {
-	font-size: 3em;
+.icons-social {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.icons-social a {
+	display: inline-flex;
+	padding: 10px;
+	border-radius: 6px;
+}
+
+.icons-social svg {
+	width: 3em;
+	height: 3em;
+	fill: currentColor;
+	transition: transform 0.15s ease;
+}
+
+.icons-social a:hover svg {
+	transform: translateY(-2px);
+}
+
+.icons-social a:focus-visible {
+	outline: 3px solid currentColor;
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.icons-social svg {
+		transition: none;
+	}
 }
 
 /* Custom Styles */
@@ -52,20 +83,5 @@ main > .intro {
 main > .tagline {
 	font-size: 1.5rem;
 	margin: 1.5rem 0;
-	font-weight: 100;
-}
-
-.icons-social i {
-	padding: 10px;
-}
-
-.devto {
-	margin-bottom: -0.20rem;
-}
-
-.devto svg {
-	margin-bottom: -0.20rem;
-	margin-left: 0.675rem;;
-	width: 2.65rem;
-	height: 2.65rem;
+	font-weight: 300;
 }
