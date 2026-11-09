@@ -23,7 +23,7 @@ Personal site for Anirudh Kanakatte (GitHub: `anikanakatte`). Today it's a singl
 ## Decisions (2026-11-10)
 - Hero copy: "Hi, I'm Anirudh. Welcome to my corner of the internet." / "I'm a Full Stack AI Engineer. Here I share what I'm building, what I'm reading, what I'm writing about, and whatever else has my attention lately." Start year 2018.
 - No "Main entry" eyebrow; the surname-first "Kanakatte, Anirudh." stays only on the catalog card.
-- Repo count and top languages on the hero card come from the GitHub API at build time (`apps/site/src/lib/github.ts`). Never hard-code them.
+- Repo count on the hero card comes from the GitHub API at build time (`apps/site/src/lib/github.ts`). Never hard-code it. The stack line is static by choice: `SITE.stack` in `apps/site/src/lib/site.ts` (TypeScript, React, Node.js, Python).
 - Projects come from GitHub, not `projects.yaml`: repos tagged with the topic `portfolio`. Description = first README paragraph (fallback: repo About), link = repo Website field (fallback: first hosting link in README, dead links dropped). A daily scheduled rebuild keeps it fresh.
 - GitHub fetch failure: production build fails (Netlify keeps the last deploy), dev warns and renders without the data. Set `GITHUB_TOKEN` in Netlify to avoid rate limits.
 - Theme toggle in the header (`apps/site/public/js/theme.js`, loaded blocking in head); defaults to the device setting.

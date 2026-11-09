@@ -28,14 +28,17 @@ const profile = await getProfile();
         <span class="spacer" aria-hidden="true"></span>
         <div>
           <p class="indent">Full stack AI engineer / Anirudh Kanakatte. — The Web, {SITE.since}–</p>
-          {profile && (
-            <p class="indent">
-              <a href="https://github.com/anikanakatte?tab=repositories" rel="noopener noreferrer" target="_blank">
-                {profile.publicRepos} public repositories
-              </a>
-              {profile.topLanguages.length > 0 && ` ; ${profile.topLanguages.join(', ')}.`}
-            </p>
-          )}
+          <p class="indent">
+            {profile && (
+              <>
+                <a href="https://github.com/anikanakatte?tab=repositories" rel="noopener noreferrer" target="_blank">
+                  {profile.publicRepos} public repositories
+                </a>
+                {' ; '}
+              </>
+            )}
+            {SITE.stack.join(', ')}.
+          </p>
           <p class="indent">1. AI engineering. 2. Full stack development. 3. Learning in public.</p>
         </div>
       </div>

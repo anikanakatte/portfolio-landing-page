@@ -5,7 +5,6 @@ export const GITHUB_USER = 'anikanakatte';
 
 export interface Profile {
   publicRepos: number;
-  topLanguages: string[];
 }
 
 async function gh<T>(path: string): Promise<T> {
@@ -39,19 +38,7 @@ let profilePromise: Promise<Profile | null> | undefined;
 export function getProfile(): Promise<Profile | null> {
   profilePromise ??= safely('profile', async () => {
     const user = await gh<{ public_repos: number }>(`/users/${GITHUB_USER}`);
-    const repos = await gh<{ fork: boolean; language: string | null }[]>(
-      `/users/${GITHUB_USER}/repos?per_page=100&type=owner`,
-    );
-    const counts = new Map<string, number>();
-    for (const r of repos) {
-      if (r.fork || !r.language) continue;
-      counts.set(r.language, (counts.get(r.language) ?? 0) + 1);
-    }
-    const topLanguages = [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([lang]) => lang);
-    return { publicRepos: user.public_repos, topLanguages };
+    return { publicRepos: user.public_repos };
   });
   return profilePromise;
 }

@@ -6,6 +6,8 @@ export const SITE = {
   url: 'https://www.anirudh.dev',
   twitter: '@anikanakatte',
   since: 2018,
+  // Shown on the hero catalog card. Static on purpose; edit to change.
+  stack: ['TypeScript', 'React', 'Node.js', 'Python'],
   // Flip to true once the blog (apps/blog) is live at /blog.
   blogEnabled: false,
 };
