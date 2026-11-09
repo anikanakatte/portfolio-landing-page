@@ -1,0 +1,43 @@
+/* Base styles and shared primitives for The Stacks. Ported from design/prototype.html. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 16px/1.55 var(--f-ui); }
+img, svg { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--brass-hi); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+.wrap {
+  max-width: 1160px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+.skip {
+  position: absolute; left: 12px; top: -48px; z-index: 10;
+  background: var(--card); color: var(--card-ink); padding: 10px 14px; border-radius: 3px;
+  font: 600 .9rem/1 var(--f-ui);
+}
+.skip:focus { top: 12px; }
+
+.eyebrow { font: 700 .78rem/1 var(--f-type); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.typed { font-family: var(--f-type); }
+.callno { font: 700 .82rem/1.25 var(--f-type); color: var(--card-muted); white-space: pre; }
+
+.btn {
+  font: 600 .92rem/1 var(--f-ui); padding: 13px 18px; border-radius: 3px; text-decoration: none;
+  border: 1.5px solid var(--ink); display: inline-flex; gap: 8px; align-items: center; cursor: pointer;
+  background: transparent; color: var(--ink); transition: transform .15s;
+}
+.btn.solid { background: var(--cabinet); border-color: var(--cabinet); color: var(--on-cabinet); }
+.btn:hover { transform: translateY(-1px); }
+
+.stamp {
+  font: 700 .8rem/1 var(--f-type); color: var(--stamp); border: 2px solid var(--stamp); border-radius: 3px;
+  padding: 5px 8px; display: inline-block; letter-spacing: .08em; text-transform: uppercase;
+  opacity: .88; transform: rotate(-4deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+}

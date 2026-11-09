@@ -1,0 +1,39 @@
+---
+import SocialIcon from './SocialIcon.astro';
+import { SOCIALS, SITE } from '../lib/site';
+const reshelved = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date());
+---
+<footer>
+  <div class="wrap">
+    <ul>
+      {SOCIALS.map((s) => (
+        <li>
+          <a href={s.href} rel="me noopener noreferrer" target="_blank">
+            <SocialIcon name={s.name} />
+            {s.name}
+          </a>
+        </li>
+      ))}
+      {SITE.blogEnabled && (
+        <li><a href="/blog/rss.xml">RSS</a></li>
+      )}
+    </ul>
+    <small>Catalogued with Astro · Hosted on Netlify · Last re-shelved {reshelved}</small>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--cabinet); color: var(--on-cabinet); margin-top: 40px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px 24px; flex-wrap: wrap; padding-block: 30px; }
+  ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; }
+  a {
+    display: inline-flex; align-items: center; gap: 7px;
+    font: 500 .9rem/1 var(--f-ui); text-decoration: none;
+    padding-bottom: 3px; border-bottom: 1px solid var(--brass);
+  }
+  a:hover { border-bottom-color: var(--brass-hi); }
+  small { font: 400 .8rem/1.5 var(--f-type); opacity: .8; }
+</style>

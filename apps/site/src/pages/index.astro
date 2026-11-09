@@ -1,27 +1,8 @@
 ---
-// Step 1 placeholder: proves the build, tokens and fonts work. Replaced in step 2.
-import '@stacks/tokens/tokens.css';
-import '../styles/fonts.css';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Anirudh Kanakatte</title>
-    <link rel="icon" href="/assets/favicon.ico" sizes="any" />
-  </head>
-  <body>
-    <main>
-      <p class="eyebrow">000 · Scaffold</p>
-      <h1>The Stacks is being shelved.</h1>
-      <p>Astro, tokens and self-hosted fonts are wired up.</p>
-    </main>
-  </body>
-</html>
-<style is:global>
-  body { margin: 0; background: var(--ground); color: var(--ink); font: 400 16px/1.55 var(--f-ui); }
-  main { max-width: 60ch; margin: 0 auto; padding: 72px 20px; }
-  .eyebrow { font: 700 .78rem/1 var(--f-type); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-  h1 { font: 400 clamp(2.2rem, 4.6vw, 3.6rem)/1.08 var(--f-display); color: var(--cabinet); }
-</style>
+<Base>
+  <Hero />
+  <!-- Steps 3-4: Projects (005), Work (331.7), Writing (808), Shelf (028), Contact (384) -->
+</Base>
