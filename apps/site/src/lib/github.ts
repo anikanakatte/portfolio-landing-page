@@ -3,11 +3,8 @@
 
 export const GITHUB_USER = 'anikanakatte';
 
-export interface Profile {
-  publicRepos: number;
-}
 
-async function gh<T>(path: string): Promise<T> {
+export async function gh<T>(path: string): Promise<T> {
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github+json',
     'User-Agent': 'anirudh.dev-build',
@@ -31,14 +28,4 @@ export async function safely<T>(label: string, fn: () => Promise<T>): Promise<T 
     console.warn(`[github] ${label} unavailable in dev: ${(err as Error).message}`);
     return null;
   }
-}
-
-let profilePromise: Promise<Profile | null> | undefined;
-
-export function getProfile(): Promise<Profile | null> {
-  profilePromise ??= safely('profile', async () => {
-    const user = await gh<{ public_repos: number }>(`/users/${GITHUB_USER}`);
-    return { publicRepos: user.public_repos };
-  });
-  return profilePromise;
 }
