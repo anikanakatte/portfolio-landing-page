@@ -1,5 +1,19 @@
-# Netlify configuration for anirudh.dev
+# Netlify configuration for anirudh.dev (pnpm monorepo; the main site is apps/site).
 # HSTS is not set here: the whole .dev TLD is HSTS-preloaded and Netlify already sends the header.
+
+[build]
+  command = "pnpm build"
+  publish = "apps/site/dist"
+
+[build.environment]
+  NODE_VERSION = "22.23.4"
+
+# The blog is a separate Netlify site built with base "/blog". Proxy it so it lives at anirudh.dev/blog.
+[[redirects]]
+  from = "/blog/*"
+  to = "https://anirudh-blog.netlify.app/blog/:splat"
+  status = 200
+  force = true
 
 [[headers]]
   for = "/*"
@@ -7,7 +21,12 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/assets/*"

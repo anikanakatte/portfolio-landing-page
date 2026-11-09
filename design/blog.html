@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Room · anirudh.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Young+Serif&display=swap">
+<style>
+/* Layout: the reading room. Quiet page, one 66ch column, margin notes in the right gutter on wide screens, inline on phones. */
+:root{
+  --paper:#F6F5EF; --ink:#1E2421; --muted:#5C6660; --rule:#D6D8CF; --accent:#B23A36; --note-bg:#ECEDE4; --code-bg:#20302A; --code-ink:#E6E3D3; --brass:#A8843F;
+  --f-read:"Newsreader", Charter, "Iowan Old Style", Georgia, serif;
+  --f-display:"Young Serif", Georgia, serif;
+  --f-type:"Courier Prime", "Courier New", ui-monospace, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#131815; --ink:#DEDFD8; --muted:#97A19A; --rule:#2B3530; --accent:#E07A6E; --note-bg:#1B221E; --code-bg:#0B110E; --code-ink:#D9D6C6; --brass:#C7A564; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --paper:#131815; --ink:#DEDFD8; --muted:#97A19A; --rule:#2B3530; --accent:#E07A6E; --note-bg:#1B221E; --code-bg:#0B110E; --code-ink:#D9D6C6; --brass:#C7A564; color-scheme:dark; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.2rem/1.68 var(--f-read);font-optical-sizing:auto}
+a{color:inherit;text-decoration-color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.bar{border-bottom:1px solid var(--rule)}
+.bar .in{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px max(20px, env(safe-area-inset-right,0px)) 14px max(20px, env(safe-area-inset-left,0px));font:700 .8rem/1 var(--f-type);letter-spacing:.06em}
+.bar a{text-decoration:none}
+.bar .room{color:var(--muted)}
+.bar .room b{color:var(--brass)}
+.page{max-width:1180px;margin:0 auto;padding:56px max(20px, env(safe-area-inset-right,0px)) 80px max(20px, env(safe-area-inset-left,0px));display:grid;grid-template-columns:1fr minmax(0,66ch) 1fr;column-gap:48px}
+.page > *{grid-column:2}
+.meta{font:700 .78rem/1.4 var(--f-type);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+.meta .cn{color:var(--brass)}
+h1{font:400 clamp(2rem,4.4vw,3.1rem)/1.12 var(--f-display);margin:.45em 0 .35em;text-wrap:balance;letter-spacing:-.01em}
+.dek{font-size:1.32rem;line-height:1.5;color:var(--muted);margin:0 0 1.6em;font-style:italic}
+.toc{grid-column:1;grid-row:4 / span 6;align-self:start;position:sticky;top:24px;font:400 .85rem/1.5 var(--f-type);color:var(--muted)}
+.toc b{display:block;letter-spacing:.12em;font-size:.72rem;margin-bottom:8px}
+.toc ol{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.toc a{text-decoration:none}
+.toc a:hover{color:var(--ink)}
+p{margin:0 0 1.15em;hyphens:auto}
+.lead::first-letter{font-family:var(--f-display);float:left;font-size:3.4em;line-height:.9;padding:.06em .1em 0 0;color:var(--accent)}
+h2{font:400 1.6rem/1.25 var(--f-display);margin:1.6em 0 .5em;text-wrap:balance}
+.note{grid-column:3;font-size:.86rem;line-height:1.5;color:var(--muted);border-left:2px solid var(--brass);padding-left:12px;align-self:start;margin-top:.3em}
+.note b{font:700 .72rem/1 var(--f-type);color:var(--brass);display:block;margin-bottom:4px;letter-spacing:.08em}
+pre{background:var(--code-bg);color:var(--code-ink);font:400 .86rem/1.6 var(--f-type);padding:18px 20px;border-radius:4px;overflow-x:auto;margin:0 0 1.3em}
+code{font-family:var(--f-type);font-size:.9em}
+p code{background:var(--note-bg);padding:1px 5px;border-radius:3px}
+blockquote{margin:1.2em 0 1.4em;padding:0 0 0 22px;border-left:3px solid var(--accent);font-style:italic;font-size:1.3rem;line-height:1.5}
+.end{margin-top:2.4em;padding-top:1.4em;border-top:1px solid var(--rule);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:700 .82rem/1.5 var(--f-type)}
+.end span{display:block;color:var(--muted);font-weight:400;letter-spacing:.06em}
+.end a{text-decoration:none;max-width:30ch}
+.end a:last-child{text-align:right}
+.reply{background:var(--note-bg);padding:18px 20px;border-radius:4px;font-size:1rem;margin-top:1.6em}
+@media (max-width: 1080px){
+  .page{grid-template-columns:minmax(0,1fr);column-gap:0;padding-top:36px}
+  .page > *, .toc, .note{grid-column:1}
+  .toc{position:static;grid-row:auto;margin-bottom:1.6em;padding:14px 16px;border:1px solid var(--rule);border-radius:4px}
+  .note{background:var(--note-bg);border-left-width:3px;padding:10px 14px;margin:-.3em 0 1.3em}
+}
+@media (max-width: 560px){
+  body{font-size:1.1rem;line-height:1.65}
+  .dek{font-size:1.15rem}
+  .end a:last-child{text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="bar"><div class="in"><a href="prototype.html">← anirudh.dev</a><span class="room"><b>808</b> · Reading room</span></div></div>
+<article class="page">
+  <div class="meta"><span class="cn">808.06 WEB</span><span>Filed 02 Oct 2026</span><span>7 min read</span></div>
+  <h1>Building a website blocker that respects your calendar</h1>
+  <p class="dek">Schedules, the declarativeNetRequest API, and why “just one site” is never one site.</p>
+
+  <nav class="toc" aria-label="Contents"><b>CONTENTS</b><ol><li><a href="#why">Why build another one</a></li><li><a href="#rules">Rules, not scripts</a></li><li><a href="#sched">Scheduling</a></li><li><a href="#lessons">What I'd change</a></li></ol></nav>
+
+  <p class="lead">I tried four blockers before writing my own. Each one either blocked everything all the time or let me disable it with a single click at 11pm. What I wanted was simpler: block a short list of sites during work hours on weekdays, and make turning it off slightly annoying.</p>
+  <aside class="note"><b>SAMPLE</b>Placeholder article to show the reading layout. On phones this note sits inline.</aside>
+  <p>This post walks through how the extension works, the one API that made it small, and the parts I would do differently if I started again.</p>
+
+  <h2 id="why">Why build another one</h2>
+  <p>Most blockers inject a content script into every page and check the URL. That works, but the page starts loading before the script runs, so you get a flash of the site you were trying to avoid. It also means asking for permission to read every page you visit.</p>
+  <blockquote>The best blocker is the one that never lets the request leave the browser.</blockquote>
+
+  <h2 id="rules">Rules, not scripts</h2>
+  <p>Chrome's <code>declarativeNetRequest</code> API lets an extension hand the browser a list of rules up front. The browser applies them before any network request goes out, and the extension never sees your browsing.</p>
+  <pre><code>chrome.declarativeNetRequest.updateDynamicRules({
+  addRules: sites.map((host, i) =&gt; ({
+    id: i + 1,
+    action: { type: "redirect", redirect: { extensionPath: "/blocked.html" } },
+    condition: { urlFilter: `||${host}`, resourceTypes: ["main_frame"] }
+  })),
+  removeRuleIds: existingIds
+});</code></pre>
+  <aside class="note"><b>NOTE</b><code>||host</code> matches the domain and every subdomain, which is how one entry covers m.example.com too.</aside>
+  <p>That is the whole blocking engine. Everything else in the extension is a settings page and a timer.</p>
+
+  <h2 id="sched">Scheduling</h2>
+  <p>The schedule is a list of weekday and time ranges stored in <code>chrome.storage.sync</code>. An alarm fires at each boundary and swaps the rules in or out. Because alarms survive browser restarts, the block holds even if you quit Chrome to get around it.</p>
+
+  <h2 id="lessons">What I'd change</h2>
+  <p>I would add a “cool-down” instead of an off switch: request a break, wait five minutes, then get fifteen minutes of access. Friction works better than prohibition.</p>
+
+  <div class="reply">Thoughts or corrections? <a href="prototype.html#contact">Send a request slip</a>. Subscribe via <a href="#">RSS</a>.</div>
+  <div class="end">
+    <a href="#"><span>← Earlier</span>My dotfiles, annotated</a>
+    <a href="#"><span>Later →</span>What 25 days of Advent of Code taught me</a>
+  </div>
+</article>
+</body>
+</html>

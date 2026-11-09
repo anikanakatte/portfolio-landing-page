@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>anirudh.dev Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;500;600;700&family=Young+Serif&display=swap">
+<style>
+/* Layout: a design brief. Single reading column with full-width mockup frames; tables and code scroll in their own boxes. */
+:root{
+  --bg:#EEF0EB; --surface:#FFFFFF; --ink:#1B2320; --muted:#59645E; --line:#D3D8D0;
+  --green:#23463A; --on-green:#E9E6D6; --brass:#A8843F; --red:#B8383A; --amber:#9A6A12; --ok:#2F6B4A; --chip-bg:#E3E7E0;
+  --f-display:"Young Serif", Georgia, serif;
+  --f-ui:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-type:"Courier Prime", "Courier New", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#101614; --surface:#18201C; --ink:#E3E6E0; --muted:#9BA69F; --line:#2C3832;
+  --green:#1C3329; --on-green:#DCD8C6; --brass:#C9A866; --red:#E2766E; --amber:#D9A74A; --ok:#6FBF8E; --chip-bg:#222C27; color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#101614; --surface:#18201C; --ink:#E3E6E0; --muted:#9BA69F; --line:#2C3832;
+  --green:#1C3329; --on-green:#DCD8C6; --brass:#C9A866; --red:#E2766E; --amber:#D9A74A; --ok:#6FBF8E; --chip-bg:#222C27; color-scheme:dark; }
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-ui)}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration-color:var(--brass);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px))}
+.col{max-width:72ch}
+header.top{background:var(--green);color:var(--on-green)}
+header.top .wrap{padding-block:44px 40px}
+.kicker{font:700 .78rem/1 var(--f-type);letter-spacing:.16em;text-transform:uppercase;color:var(--brass)}
+h1{font:400 clamp(2rem,5vw,3.2rem)/1.08 var(--f-display);margin:.35em 0 .3em;text-wrap:balance}
+header.top p{max-width:62ch;margin:0;opacity:.9;font-size:1.06rem}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;padding:0;list-style:none}
+.toc a{display:inline-block;font:600 .84rem/1 var(--f-ui);text-decoration:none;padding:9px 12px;border:1.5px solid var(--brass);border-radius:3px}
+.toc a:hover{background:rgba(255,255,255,.06)}
+section{padding-block:52px;border-bottom:1px solid var(--line)}
+h2{font:400 clamp(1.5rem,3vw,2rem)/1.15 var(--f-display);margin:0 0 .5em;text-wrap:balance}
+h3{font:600 1.05rem/1.35 var(--f-ui);margin:1.6em 0 .4em}
+.dd{font:700 .8rem/1 var(--f-type);color:var(--brass);letter-spacing:.08em;display:block;margin-bottom:10px}
+p{margin:0 0 1em}
+.muted{color:var(--muted)}
+ul.plain{padding-left:1.2em;margin:0 0 1em}
+ul.plain li{margin-bottom:.4em}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:22px 0 8px}
+.map div{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px 16px}
+.map b{display:block;font:700 .78rem/1.2 var(--f-type);letter-spacing:.08em;color:var(--brass);margin-bottom:6px}
+.map span{font-size:.94rem}
+/* frames */
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:4px;overflow:hidden;margin:6px 0 18px}
+.seg button{font:600 .86rem/1 var(--f-ui);padding:10px 14px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.frames{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:start}
+.browser{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.chrome{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font:400 .78rem/1 var(--f-type);color:var(--muted)}
+.dots{display:flex;gap:5px}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line);display:block}
+.url{background:var(--chip-bg);padding:5px 10px;border-radius:4px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.viewport{position:relative;overflow:hidden}
+.viewport iframe{border:0;display:block;transform-origin:0 0;background:#fff}
+.phone{width:300px;max-width:100%;border:10px solid var(--ink);border-radius:34px;overflow:hidden;background:var(--ink);position:relative}
+.phone .viewport{border-radius:24px}
+.cap{font:400 .82rem/1.4 var(--f-type);color:var(--muted);margin-top:10px;text-align:center}
+.open{font:600 .86rem/1 var(--f-ui)}
+/* details list */
+.sig{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 28px;padding:0;list-style:none;margin:16px 0 0}
+.sig li{padding-left:16px;border-left:2px solid var(--brass);font-size:.95rem}
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface);margin:16px 0 8px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 .74rem/1.2 var(--f-type);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap}
+.pill{display:inline-block;font:700 .7rem/1 var(--f-type);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:3px;border:1.5px solid currentColor;white-space:nowrap}
+.p-red{color:var(--red)}.p-amb{color:var(--amber)}.p-ok{color:var(--ok)}.p-mut{color:var(--muted)}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:4px;padding:18px 20px;margin:12px 0 18px}
+.verdict b{font:400 1.35rem/1.2 var(--f-display);display:block;margin-bottom:6px}
+pre{background:var(--green);color:var(--on-green);font:400 .84rem/1.6 var(--f-type);padding:16px 18px;border-radius:6px;overflow-x:auto;margin:10px 0 18px}
+code{font-family:var(--f-type);font-size:.92em}
+p code, li code, td code{background:var(--chip-bg);padding:1px 5px;border-radius:3px}
+.arch{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
+.arch div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.arch h4{margin:0 0 6px;font:400 1.15rem/1.2 var(--f-display)}
+.arch .host{font:700 .78rem/1 var(--f-type);color:var(--brass);display:block;margin-bottom:10px}
+.arch ul{margin:0;padding-left:1.1em;font-size:.92rem}
+.phases{list-style:none;padding:0;margin:16px 0;display:grid;gap:12px}
+.phases li{display:grid;grid-template-columns:110px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.phases b{font:700 .8rem/1.4 var(--f-type);color:var(--brass);letter-spacing:.06em}
+.phases p{margin:0;font-size:.94rem}
+footer.src{padding-block:36px 56px;font-size:.88rem;color:var(--muted)}
+footer.src ul{padding-left:1.1em}
+@media (max-width: 860px){
+  .frames{grid-template-columns:1fr;justify-items:center}
+  .frames .browser{width:100%}
+  .phases li{grid-template-columns:1fr;gap:4px}
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="kicker">Design brief · 08 Nov 2026</span>
+    <h1>anirudh.dev, re-catalogued as The Stacks</h1>
+    <p>A redesign of your personal site as a personal library: projects, work history, writing, books and a contact form, all treated as entries in one card catalog. Below: the concept, the research behind it, live desktop and mobile mockups, a domain verdict, an audit of the current site, and a build plan.</p>
+    <ul class="toc">
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#mockups">Mockups</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#domain">Domain</a></li>
+      <li><a href="#audit">Current site audit</a></li>
+      <li><a href="#build">Architecture</a></li>
+      <li><a href="#plan">Plan</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+<section id="concept"><div class="wrap"><div class="col">
+  <span class="dd">01 · Concept</span>
+  <h2>Your site is a card catalog</h2>
+  <p>You want projects, experience, a blog and a bookshelf in one place. Most portfolios treat those as unrelated sections with different card styles. A library already has a system that holds all four: the card catalog. Every item gets a typed index card with a call number, subjects and a short description. Drawers become navigation. The blog becomes the reading room.</p>
+  <p>The metaphor gives the site a recognizable identity without WebGL or heavy animation, so it stays fast and readable. And it gives the bookshelf a reason to exist on a developer site instead of feeling bolted on.</p>
+</div>
+  <div class="map">
+    <div><b>005 · PROJECTS</b><span>Index cards with call number, year, typed description, subject tracings for tech stack.</span></div>
+    <div><b>331.7 · WORK</b><span>A date-due slip with violet stamped dates, one row per role.</span></div>
+    <div><b>808 · WRITING</b><span>Latest essays on the home page; the full blog is a separate reading-room app.</span></div>
+    <div><b>028 · SHELF</b><span>Book spines on a shelf. Tap a spine to pull its card: status stamp and your note.</span></div>
+    <div><b>384 · CONTACT</b><span>A request slip form that gets stamped RECEIVED on submit. Your email stays private.</span></div>
+  </div>
+  <div class="col">
+  <h3>Signature details</h3>
+  </div>
+  <ul class="sig">
+    <li>Nav labels are real Dewey Decimal classes (005 programming, 808 rhetoric, 028 reading, 384 communication).</li>
+    <li>Cards use real catalog-card rules: one red header line, pale blue ruling, and the rod hole punched at the bottom.</li>
+    <li>Dates are violet rubber stamps, each tilted a little differently.</li>
+    <li>Hovering a project lifts its card out of the drawer.</li>
+    <li>Green steel cabinet bands with brass label holders frame the page in both themes.</li>
+    <li>Type: Young Serif for headings, Courier Prime for anything typed on a card, Public Sans for interface text, Newsreader for blog body.</li>
+  </ul>
+</div></section>
+
+<section id="mockups"><div class="wrap">
+  <span class="dd">02 · Mockups</span>
+  <h2>Desktop and mobile</h2>
+  <p class="muted col">These are live, scrollable HTML mockups, not screenshots. Click a book spine, filter the shelf, or submit the request slip. Project names come from your public GitHub repos; work history, posts and most books are placeholders.</p>
+  <div class="seg" role="group" aria-label="Choose page">
+    <button aria-pressed="true" data-src="prototype.html" data-url="anirudh.dev">Home</button>
+    <button aria-pressed="false" data-src="blog.html" data-url="anirudh.dev/blog/website-blocker">Reading room (blog)</button>
+  </div>
+  <div class="frames">
+    <div>
+      <div class="browser">
+        <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url" id="url">anirudh.dev</span></div>
+        <div class="viewport" id="desk" data-w="1280" data-h="860"><iframe title="Desktop mockup" src="prototype.html" width="1280" height="860"></iframe></div>
+      </div>
+      <p class="cap">Desktop, 1280px wide, scaled to fit · <a class="open" id="openfull" href="prototype.html" target="_blank" rel="noopener">Open full page ↗</a></p>
+    </div>
+    <div>
+      <div class="phone"><div class="viewport" id="mob" data-w="280" data-h="580"><iframe title="Mobile mockup" src="prototype.html" width="280" height="580"></iframe></div></div>
+      <p class="cap">Phone, 280px viewport</p>
+    </div>
+  </div>
+  <div class="col">
+    <h3>How it adapts on phones</h3>
+    <ul class="plain">
+      <li>The drawer nav becomes a sticky, swipeable strip under the wordmark.</li>
+      <li>Project cards stack in one column; the author card drops its call-number gutter.</li>
+      <li>The shelf scrolls sideways inside its own track, with the selected book's card below.</li>
+      <li>Request-slip labels move above each line so the inputs get the full width.</li>
+      <li>In the blog, margin notes and the table of contents move inline.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="research"><div class="wrap">
+  <div class="col">
+  <span class="dd">03 · Research</span>
+  <h2>What other developers do</h2>
+  <p>Developer portfolios that get cited as memorable fall into three camps. <b>Immersive</b> sites (3D worlds, heavy motion) are unforgettable but slow and hard to scan. <b>Clean two-column</b> sites are fast and scannable, but one popular layout has been cloned so often it reads as a template. <b>Writing-first</b> sites (digital gardens, now pages) feel personal but often bury projects. The Stacks sits between the last two, with one strong metaphor doing the work an immersive site does with WebGL.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Site</th><th>What stands out</th><th>What to take</th><th>What to leave</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://bruno-simon.com/">bruno-simon.com</a></td><td>Drive a toy car around a 3D world to find the work.</td><td>One interaction people remember and tell others about.</td><td>WebGL weight; content is hard to skim.</td></tr>
+      <tr><td><a href="https://lynnandtonic.com">lynnandtonic.com</a></td><td>Redesigned every year, with an archive of past versions.</td><td>Treat the site as alive: a colophon and changelog.</td><td>Yearly rebuild cost.</td></tr>
+      <tr><td><a href="https://www.joshwcomeau.com/">joshwcomeau.com</a></td><td>Playful, interactive blog with careful light and dark modes.</td><td>Reading quality and small delights in the blog app.</td><td>Hand-built interactive widgets in every post.</td></tr>
+      <tr><td><a href="https://brittanychiang.com/">brittanychiang.com</a></td><td>Clean two-column layout, sticky nav, scannable experience list.</td><td>Experience that reads in ten seconds.</td><td>The layout itself; its open-source template is widely copied.</td></tr>
+      <tr><td><a href="https://jhey.dev">jhey.dev</a></td><td>Lots of information arranged so everything has a place.</td><td>Density without clutter.</td><td>None in particular.</td></tr>
+      <tr><td><a href="https://mxb.dev">mxb.dev</a></td><td>Minimal and restrained, IndieWeb-minded.</td><td>RSS, restraint, owning your content.</td><td>Minimalism alone won't stand out.</td></tr>
+      <tr><td><a href="https://www.jason.af/">jason.af</a></td><td>Color, animation and sound with lots of personality.</td><td>Copy that sounds like a person.</td><td>Autoplay-style surprises.</td></tr>
+      <tr><td>Digital gardens</td><td>Tania Rascia and others publish evolving notes, now pages and bookshelves.</td><td>A /now page and notes that grow over time.</td><td>Unclear navigation.</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section id="domain"><div class="wrap"><div class="col">
+  <span class="dd">04 · Domain</span>
+  <h2>Is .dev right for a personal site?</h2>
+  <div class="verdict"><b>Keep anirudh.dev.</b>It's short, it's your first name, it tells people what you do, and you already own it. Add one cheap full-name .com that redirects to it.</div>
+  <h3>Why .dev works</h3>
+  <ul class="plain">
+    <li>The whole .dev TLD is on browsers' HSTS preload list, so every visit is forced to HTTPS from the very first request. Netlify already serves HTTPS, so this costs you nothing.</li>
+    <li>Your audience (recruiters at tech companies, other engineers) reads .dev as "developer" instantly. Google uses it for web.dev, which lends it credibility.</li>
+    <li>First-name domains on .com are almost always taken. anirudh.com is registered.</li>
+  </ul>
+  <h3>The trade-offs</h3>
+  <ul class="plain">
+    <li>Outside tech, .dev means little. That matters if you later want the site to represent you beyond engineering.</li>
+    <li>"Anirudh" is a common name, so people searching your full name won't guess anirudh.dev. A full-name .com fixes that.</li>
+    <li>Plain-HTTP tools and redirects break on .dev. That won't affect a site hosted on Netlify.</li>
+  </ul>
+  <h3>Alternatives checked today</h3>
+  <p class="muted">Checked against public registry (RDAP) records on 08 Nov 2026. "No record" usually means available. Confirm at a registrar before buying.</p>
+</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Domain</th><th>Status</th><th>Comment</th></tr></thead>
+    <tbody>
+      <tr><td>anirudh.dev</td><td><span class="pill p-ok">Yours</span></td><td>Keep as the main domain.</td></tr>
+      <tr><td>anirudhkanakatte.com</td><td><span class="pill p-ok">No record</span></td><td>Recommended. Buy and 301-redirect to anirudh.dev for full-name searches.</td></tr>
+      <tr><td>kanakatte.com</td><td><span class="pill p-ok">No record</span></td><td>Distinctive surname domain, good for a future email address.</td></tr>
+      <tr><td>kanakatte.dev / anirudhk.dev</td><td><span class="pill p-ok">No record</span></td><td>No need while you hold anirudh.dev.</td></tr>
+      <tr><td>anirudh.me / anirudh.io</td><td><span class="pill p-mut">Unconfirmed</span></td><td>Registry lookup inconclusive. .io's long-term future is uncertain after the Chagos sovereignty agreement.</td></tr>
+      <tr><td>anirudh.com · anirudhk.com · ani.dev</td><td><span class="pill p-red">Taken</span></td><td>Registered by someone else.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+  <h3>Two related tweaks</h3>
+  <ul class="plain">
+    <li>Right now anirudh.dev redirects to www.anirudh.dev. Make the bare domain the main address so the URL bar shows the short name. Set it in Netlify's domain settings.</li>
+    <li>Squarespace Domains renews .dev above cost. Cloudflare Registrar sells domains at wholesale price if you want to transfer. Optional.</li>
+  </ul>
+  </div>
+</div></section>
+
+<section id="audit"><div class="wrap"><div class="col">
+  <span class="dd">05 · Current site</span>
+  <h2>Audit of the current site</h2>
+  <p>I read the repo (<code>anikanakatte/portfolio-landing-page</code>, last changed April 2022) and requested the live site. It's a static HTML page from a template by Dinesh Pandiyan, with nine theme files and one active.</p>
+</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Severity</th><th>Finding</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill p-red">Broken</span></td><td>The GitHub icon links to <code>github.com/anirudhkanakatte</code>, which returns 404. Your account is <code>anikanakatte</code>.</td><td>Change the link today.</td></tr>
+      <tr><td><span class="pill p-red">Broken</span></td><td>The web manifest points icons at <code>/android-chrome-*.png</code>, but the files live in <code>/assets/</code> (404). <code>name</code> and <code>short_name</code> are empty.</td><td>Fix the paths and fill in the names.</td></tr>
+      <tr><td><span class="pill p-amb">Important</span></td><td>No <code>lang</code> on <code>&lt;html&gt;</code>, no meta description, no Open Graph or Twitter card tags. Shared links show no preview.</td><td>Add the tags and a 1200×630 share image.</td></tr>
+      <tr><td><span class="pill p-amb">Important</span></td><td>Social links are icon-only <code>&lt;i&gt;</code> elements with no text, so screen readers announce nothing useful.</td><td>Add <code>aria-label</code>s or hidden text.</td></tr>
+      <tr><td><span class="pill p-amb">Important</span></td><td>Loads all of Font Awesome 5.12 (57 KB CSS plus font files, render-blocking) to draw four icons. Version 5 has no X logo.</td><td>Inline four SVG icons.</td></tr>
+      <tr><td><span class="pill p-amb">Important</span></td><td>No security headers (CSP, <code>X-Content-Type-Options</code>, <code>Referrer-Policy</code>, <code>Permissions-Policy</code>).</td><td>Add a <code>netlify.toml</code> headers block (below).</td></tr>
+      <tr><td><span class="pill p-mut">Minor</span></td><td>No <code>robots.txt</code>, no sitemap, and Netlify's generic 404 page.</td><td>Add all three.</td></tr>
+      <tr><td><span class="pill p-mut">Minor</span></td><td>16px favicon href has a stray trailing slash; <code>favicon.ico</code> is declared as <code>image/png</code>.</td><td>Correct both.</td></tr>
+      <tr><td><span class="pill p-mut">Minor</span></td><td>Eight unused theme stylesheets in the repo; Twitter link uses the old domain; no dark mode.</td><td>Delete, update to x.com.</td></tr>
+      <tr><td><span class="pill p-mut">Content</span></td><td>"Code Fanatic | Web Developer | Tech Enthusiast" doesn't say what you build. Your GitHub bio says Software Engineer.</td><td>One concrete sentence about what you do.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+  <h3>Headers for netlify.toml</h3>
+  <pre><code>[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-ancestors 'none'"</code></pre>
+  <p class="muted">You don't need Strict-Transport-Security: .dev is preloaded, and Netlify already sends it.</p>
+  </div>
+</div></section>
+
+<section id="build"><div class="wrap"><div class="col">
+  <span class="dd">06 · Architecture</span>
+  <h2>Two apps, one domain</h2>
+  <p>You want the blog as a separate app tuned for reading. I recommend serving it at <b>anirudh.dev/blog</b> instead of a subdomain. Google says both work, but a subfolder keeps all your links and search history on one site, gives readers one address to remember, and makes analytics simpler. Netlify can proxy a path to another Netlify site, so the blog stays a fully separate app and deploy.</p>
+</div>
+  <div class="arch">
+    <div><span class="host">anirudh.dev</span><h4>Main site</h4><ul><li>Astro, static output, almost no JavaScript</li><li>Content in the repo: <code>projects.yaml</code>, <code>work.yaml</code>, <code>books.yaml</code></li><li>Small interactive pieces only: shelf filter, request slip</li><li>Netlify Forms for contact, with a honeypot field against spam</li></ul></div>
+    <div><span class="host">anirudh.dev/blog</span><h4>Reading room</h4><ul><li>Separate Astro app with <code>base: "/blog"</code></li><li>Markdown/MDX posts, Shiki code highlighting, RSS feed</li><li>Generated share images per post, reading time</li><li>Self-hosted Newsreader font, zero JS by default</li></ul></div>
+    <div><span class="host">shared</span><h4>Monorepo</h4><ul><li>pnpm workspaces: <code>apps/site</code>, <code>apps/blog</code>, <code>packages/tokens</code></li><li>Shared colors, fonts and card styles so both apps match</li><li>Two Netlify sites from one repo, each with its own base directory</li></ul></div>
+  </div>
+  <div class="col">
+  <h3>Proxy rule in the main site's netlify.toml</h3>
+  <pre><code>[[redirects]]
+  from = "/blog/*"
+  to = "https://anirudh-blog.netlify.app/blog/:splat"
+  status = 200
+  force = true</code></pre>
+  <p class="muted">If you'd rather keep them fully independent, point <code>blog.anirudh.dev</code> at the blog's Netlify site with a CNAME record instead. The designs work either way.</p>
+  <h3>Nice additions</h3>
+  <ul class="plain">
+    <li>A <code>/now</code> page: what you're working on, reading and learning this month.</li>
+    <li>Privacy-friendly analytics (Plausible, Umami or Netlify Analytics) instead of Google Analytics.</li>
+    <li>Optional book sync from Goodreads or Hardcover at build time, so the shelf updates itself.</li>
+    <li>View Transitions between drawers for a card-pulling animation, off when reduced motion is set.</li>
+  </ul>
+  </div>
+</div></section>
+
+<section id="plan"><div class="wrap"><div class="col">
+  <span class="dd">07 · Plan</span>
+  <h2>Order of work</h2>
+</div>
+  <ol class="phases">
+    <li><b>THIS WEEK</b><p>Quick fixes to the current page: GitHub link, manifest, meta and Open Graph tags, inline SVG icons, aria-labels, headers, 404 page, apex domain. About an hour.</p></li>
+    <li><b>PHASE 1</b><p>Build the main site in Astro with The Stacks design. Move real projects, work history and books into data files. Add the request-slip form with Netlify Forms.</p></li>
+    <li><b>PHASE 2</b><p>Build the reading-room blog app, add the proxy rule, publish two or three posts, add RSS and share images.</p></li>
+    <li><b>PHASE 3</b><p>/now page, book sync, analytics, drawer transitions. Buy anirudhkanakatte.com and redirect it.</p></li>
+  </ol>
+</div></section>
+</main>
+
+<footer class="src"><div class="wrap">
+  <b>Sources</b>
+  <ul>
+    <li><a href="https://catalins.tech/14-best-web-developer-portfolios-to-get-inspiration/">14 best web developer portfolios (catalins.tech)</a></li>
+    <li><a href="https://muz.li/blog/top-100-most-creative-and-unique-portfolio-websites-of-2025/">100 best portfolio websites of 2026 (Muzli)</a></li>
+    <li><a href="https://elementor.com/blog/best-web-developer-portfolio-examples/">Best web developer portfolio examples (Elementor)</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/.dev">.dev (Wikipedia)</a> · <a href="https://endtimes.dev/dev-and-hsts-preload">.dev and HSTS preload (endtimes.dev)</a></li>
+    <li><a href="https://www.siegemedia.com/seo/subdomain-seo-guide">Subdomain SEO guide (Siege Media)</a> · <a href="https://superblog.ai/blog/subdomain-vs-subdirectory/">Subdomain vs subdirectory (Superblog)</a></li>
+  </ul>
+</div></footer>
+
+<script>
+function fit(){
+  document.querySelectorAll('.viewport').forEach(v=>{
+    const w=+v.dataset.w, h=+v.dataset.h, f=v.querySelector('iframe');
+    const avail=v.parentElement.clientWidth - (v.closest('.phone')?0:0);
+    const s=Math.min(1, avail / w);
+    f.style.transform=`scale(${s})`;
+    v.style.width=(w*s)+'px'; v.style.height=(h*s)+'px';
+  });
+}
+window.addEventListener('resize',fit); fit();
+const btns=document.querySelectorAll('.seg button');
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.setAttribute('aria-pressed',x===b));
+  document.querySelectorAll('.viewport iframe').forEach(f=>f.src=b.dataset.src);
+  document.getElementById('url').textContent=b.dataset.url;
+  document.getElementById('openfull').href=b.dataset.src;
+}));
+</script>
