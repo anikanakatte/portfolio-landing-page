@@ -8,9 +8,8 @@ const reshelved = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'sho
     <ul>
       {SOCIALS.map((s) => (
         <li>
-          <a href={s.href} rel="me noopener noreferrer" target="_blank">
+          <a class="social" href={s.href} rel="me noopener noreferrer" target="_blank" aria-label={s.name} title={s.name}>
             <SocialIcon name={s.name} />
-            {s.name}
           </a>
         </li>
       ))}
@@ -28,12 +27,19 @@ const reshelved = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'sho
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .wrap { display: flex; justify-content: space-between; align-items: center; gap: 18px 24px; flex-wrap: wrap; padding-block: 30px; }
-  ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; }
-  a {
-    display: inline-flex; align-items: center; gap: 7px;
-    font: 500 .9rem/1 var(--f-ui); text-decoration: none;
-    padding-bottom: 3px; border-bottom: 1px solid var(--brass);
+  ul { list-style: none; padding: 0; margin: 0 0 0 -8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  /* Icon-only links: 40px tap target, brass on hover. */
+  .social {
+    display: inline-grid; place-items: center; width: 40px; height: 40px;
+    border-radius: 3px; color: var(--on-cabinet); font-size: 1.35rem;
+    transition: color .15s, transform .15s;
   }
-  a:hover { border-bottom-color: var(--brass-hi); }
+  .social:hover { color: var(--brass-hi); transform: translateY(-1px); }
+  /* RSS (text link, shown once the blog is live). */
+  a:not(.social) {
+    display: inline-flex; align-items: center; height: 40px;
+    font: 500 .9rem/1 var(--f-ui); text-decoration: none; color: var(--on-cabinet);
+  }
+  a:not(.social):hover { color: var(--brass-hi); }
   small { font: 400 .8rem/1.5 var(--f-type); opacity: .8; }
 </style>
