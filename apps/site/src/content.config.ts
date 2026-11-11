@@ -10,8 +10,7 @@ const work = defineCollection({
     org: z.string(),
     start: z.string(), // "2023" or "Mar 2023"
     end: z.string().default('Now'),
-    summary: z.string(),
-    placeholder: z.boolean().default(false),
+    bullets: z.array(z.string()).min(1).max(3),
   }),
 });
 

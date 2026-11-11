@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import IndexCard from './IndexCard.astro';
 import SectionHead from './SectionHead.astro';
+import { SITE } from '../lib/site';
 
 // Most recent first: current roles ("Now") on top, then by end year, then start year.
 const year = (s: string) => (s === 'Now' ? 9999 : Number(s.match(/\d{4}/)?.[0] ?? 0));
@@ -34,13 +35,19 @@ const tilt = ['-3deg', '2deg', '-1deg', '1.5deg'];
                 </td>
                 <td>
                   <div class="role">{data.role} · {data.org}</div>
-                  <div class="what">{data.summary}</div>
+                  <ul class="what">
+                    {data.bullets.map((b) => <li>{b}</li>)}
+                  </ul>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </IndexCard>
+      <a class="btn resume" href={SITE.resumeUrl} rel="noopener noreferrer" target="_blank">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6" /></svg>
+        View full résumé <span class="fmt">(PDF)</span> ↗
+      </a>
     </div>
   </div>
 </section>
@@ -61,7 +68,11 @@ const tilt = ['-3deg', '2deg', '-1deg', '1.5deg'];
   td { padding: 16px 18px; border-bottom: 1px solid var(--rule-blue); vertical-align: top; font-size: .92rem; }
   td:first-child { width: 180px; border-right: 1px solid var(--rule-red); }
   .role { font-weight: 700; }
-  .what { color: var(--card-muted); margin-top: 2px; }
+  .what { color: var(--card-muted); margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 6px; line-height: 1.5; }
+  .what li::marker { content: '– '; color: var(--rule-red); }
+  .resume { margin-top: 22px; }
+  .resume svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .fmt { font-weight: 400; opacity: .75; }
   .stamp { transform: rotate(var(--r, -3deg)); font-size: .78rem; white-space: nowrap; }
   @media (max-width: 640px) {
     section { padding-block: 40px; }

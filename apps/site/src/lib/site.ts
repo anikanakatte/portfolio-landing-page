@@ -8,6 +8,9 @@ export const SITE = {
   since: 2018,
   // Shown on the hero catalog card. Static on purpose; edit to change.
   stack: ['TypeScript', 'React', 'Node.js', 'Python'],
+  // Résumé PDF on Google Drive ("AnirudhKanakatte_Resume.pdf", shared as Anyone with the link: Viewer).
+  // To update it, use Drive's "Manage versions → Upload new version" on that file so this link stays the same.
+  resumeUrl: 'https://drive.google.com/file/d/1PB7QOhaLWEehxEiZwoVMLVjp7E5Tyei9/view',
   // Flip to true once the blog (apps/blog) is live at /blog.
   blogEnabled: false,
 };
