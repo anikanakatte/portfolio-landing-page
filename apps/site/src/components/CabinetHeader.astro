@@ -39,8 +39,12 @@ import { DRAWERS } from '../lib/site';
   .mark { font: 400 1.35rem/1 var(--f-display); text-decoration: none; white-space: nowrap; }
   .mark span { color: var(--brass-hi); }
   nav { margin-left: auto; min-width: 0; }
+  /* overflow-x: auto also clips vertically. Give the hover lift (1px) and the focus
+     ring (3px offset + 2px outline) 6px of room on every side, and cancel it out with
+     a negative margin so the layout doesn't move. */
   .drawers {
-    display: flex; gap: 8px; list-style: none; padding: 0; margin: 0;
+    display: flex; gap: 8px; list-style: none;
+    padding: 6px; margin: -6px;
     overflow-x: auto; scrollbar-width: none;
   }
   .drawers::-webkit-scrollbar { display: none; }
@@ -78,7 +82,6 @@ import { DRAWERS } from '../lib/site';
     .mark { flex: 1; }
     .toggle { width: 36px; height: 36px; order: 2; }
     nav { order: 3; flex-basis: 100%; margin-left: 0; }
-    .drawers { padding-bottom: 2px; }
     .drawers a { min-width: 74px; padding: 4px 10px 5px; }
   }
 </style>
