@@ -1,0 +1,23 @@
+# Work history shown on the "date due" slip (331.7). Sorted by date on the site, so file order doesn't matter.
+# Each entry needs a unique id. Remove `placeholder: true` once an entry is real.
+- id: current
+  role: Full Stack AI Engineer
+  org: Current company
+  start: "2023"
+  end: Now
+  summary: One line on what you own and the result. Replace me.
+  placeholder: true
+- id: previous
+  role: Frontend Engineer
+  org: Previous company
+  start: "2021"
+  end: "2023"
+  summary: One line on the biggest thing you shipped. Replace me.
+  placeholder: true
+- id: first
+  role: Software Engineer
+  org: First role
+  start: "2018"
+  end: "2021"
+  summary: One line on what you built and learned. Replace me.
+  placeholder: true

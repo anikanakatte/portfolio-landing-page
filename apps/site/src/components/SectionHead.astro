@@ -1,0 +1,30 @@
+---
+interface Props {
+  dewey: string;
+  title: string;
+  id: string; // heading id, referenced by the section's aria-labelledby
+}
+const { dewey, title, id } = Astro.props;
+---
+<div class="sec-head">
+  <div class="label">
+    <span class="holder" aria-hidden="true">{dewey}</span>
+    <h2 id={id}>{title}</h2>
+  </div>
+  <p><slot /></p>
+</div>
+
+<style>
+  .sec-head {
+    display: flex; align-items: end; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 28px; padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .label { display: inline-flex; align-items: center; gap: 12px; }
+  .holder {
+    font: 700 .78rem/1 var(--f-type); color: var(--card-ink); background: var(--card);
+    border: 2px solid var(--brass); border-radius: 2px; padding: 6px 10px;
+    box-shadow: inset 0 0 0 2px var(--card);
+  }
+  h2 { font: 400 clamp(1.6rem, 3vw, 2.2rem)/1.1 var(--f-display); margin: 0; }
+  p { margin: 0; color: var(--muted); max-width: 44ch; font-size: .95rem; }
+</style>

@@ -1,0 +1,26 @@
+# Rebuilds the live site every day so Projects picks up newly tagged / updated repos.
+# Needs the repo secret NETLIFY_BUILD_HOOK (Netlify → Site configuration → Build & deploy →
+# Build hooks, branch: master). Scheduled workflows only run from the default branch.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: "30 0 * * *" # 00:30 UTC = 06:00 IST
+  workflow_dispatch: {} # "Run workflow" button in the Actions tab
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger Netlify build
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::NETLIFY_BUILD_HOOK secret is not set; skipping."
+            exit 0
+          fi
+          curl -fsS -X POST -d '{}' "$HOOK"

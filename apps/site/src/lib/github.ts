@@ -4,16 +4,16 @@
 export const GITHUB_USER = 'anikanakatte';
 
 
-export async function gh<T>(path: string): Promise<T> {
+export async function gh<T>(path: string, format: 'json' | 'raw' = 'json'): Promise<T> {
   const headers: Record<string, string> = {
-    Accept: 'application/vnd.github+json',
+    Accept: format === 'raw' ? 'application/vnd.github.raw' : 'application/vnd.github+json',
     'User-Agent': 'anirudh.dev-build',
   };
   const token = process.env.GITHUB_TOKEN;
   if (token) headers.Authorization = `Bearer ${token}`;
   const res = await fetch(`https://api.github.com${path}`, { headers });
   if (!res.ok) throw new Error(`GitHub ${path} -> ${res.status} ${res.statusText}`);
-  return res.json() as Promise<T>;
+  return (format === 'raw' ? res.text() : res.json()) as Promise<T>;
 }
 
 /**

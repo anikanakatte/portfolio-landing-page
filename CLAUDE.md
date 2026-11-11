@@ -18,7 +18,9 @@ Personal site for Anirudh Kanakatte (GitHub: `anikanakatte`). Today it's a singl
 - Phase 1 done: the quick fixes were merged to `master` (#1).
 - Phase 2 in progress on `feat/the-stacks`. The repo is now a pnpm monorepo (`apps/site` = Astro, `packages/tokens` = design tokens). Netlify builds with `pnpm build` and publishes `apps/site/dist`. The old root `index.html`/`css/` are no longer deployed and get removed at the end of phase 2.
 - Toolchain: Node 22.23.4 (`.nvmrc`; run `nvm use`), pnpm 10.34.9 via corepack, Astro 7.4.2.
-- Done in phase 2: step 1 (scaffold) and step 2 (Base layout, cabinet header with theme toggle, footer, IndexCard, Hero). Draft PR #2.
+- Done in phase 2: step 1 (scaffold), step 2 (Base layout, cabinet header with theme toggle, footer, IndexCard, Hero), step 3 (Projects from GitHub, Work slip, Writing placeholder). Draft PR #2.
+- Work history lives in `apps/site/src/content/work.yaml` (sorted by date on the site). Entries marked `placeholder: true` still need real content.
+- Daily rebuild: `.github/workflows/rebuild.yml` POSTs to the `NETLIFY_BUILD_HOOK` repo secret at 06:00 IST.
 
 ## Decisions (2026-11-10)
 - Hero copy: "Hi, I'm Anirudh. Welcome to my corner of the internet." / "I'm a Full Stack AI Engineer. Here I share what I'm building, what I'm reading, what I'm writing about, and whatever else has my attention lately." Start year 2018.

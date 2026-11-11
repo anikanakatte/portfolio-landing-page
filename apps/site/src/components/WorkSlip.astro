@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import IndexCard from './IndexCard.astro';
+import SectionHead from './SectionHead.astro';
+
+// Most recent first: current roles ("Now") on top, then by end year, then start year.
+const year = (s: string) => (s === 'Now' ? 9999 : Number(s.match(/\d{4}/)?.[0] ?? 0));
+const jobs = (await getCollection('work')).sort(
+  (a, b) => year(b.data.end) - year(a.data.end) || year(b.data.start) - year(a.data.start),
+);
+// Alternate stamp angles so it looks hand-stamped.
+const tilt = ['-3deg', '2deg', '-1deg', '1.5deg'];
+---
+<section id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <SectionHead dewey="331.7" title="Work history" id="work-title">
+      Stamped like the date-due slip in a library book. Most recent on top.
+    </SectionHead>
+
+    <div class="slip-wrap">
+      <IndexCard as="div" class="slip">
+        <div class="title" aria-hidden="true">DATE DUE · BORROWED BY</div>
+        <table>
+          <thead>
+            <tr><th scope="col">Dates</th><th scope="col">Role</th></tr>
+          </thead>
+          <tbody>
+            {jobs.map(({ data }, i) => (
+              <tr>
+                <td>
+                  <span class="stamp" style={`--r:${tilt[i % tilt.length]}`}>
+                    {data.start} — {data.end}
+                  </span>
+                </td>
+                <td>
+                  <div class="role">{data.role} · {data.org}</div>
+                  <div class="what">{data.summary}</div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </IndexCard>
+    </div>
+  </div>
+</section>
+
+<style>
+  section { padding-block: 56px; }
+  .slip-wrap { max-width: 820px; }
+  .slip { padding: 0 0 30px; overflow: hidden; background-image: none; }
+  .title {
+    background: var(--cabinet); color: var(--on-cabinet); font: 700 .82rem/1 var(--f-type);
+    letter-spacing: .2em; text-align: center; padding: 12px;
+  }
+  table { width: 100%; border-collapse: collapse; font-family: var(--f-type); }
+  th {
+    font: 700 .72rem/1 var(--f-type); letter-spacing: .14em; text-transform: uppercase;
+    color: var(--card-muted); text-align: left; padding: 12px 18px; border-bottom: 1.5px solid var(--rule-red);
+  }
+  td { padding: 16px 18px; border-bottom: 1px solid var(--rule-blue); vertical-align: top; font-size: .92rem; }
+  td:first-child { width: 180px; border-right: 1px solid var(--rule-red); }
+  .role { font-weight: 700; }
+  .what { color: var(--card-muted); margin-top: 2px; }
+  .stamp { transform: rotate(var(--r, -3deg)); font-size: .78rem; white-space: nowrap; }
+  @media (max-width: 640px) {
+    section { padding-block: 40px; }
+    th, td { padding: 12px; }
+    td:first-child { width: auto; }
+  }
+</style>
