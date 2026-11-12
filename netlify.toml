@@ -5,6 +5,10 @@
   command = "pnpm build"
   publish = "apps/site/dist"
 
+[functions]
+  # /resume.pdf proxy (netlify/functions/resume.mjs)
+  directory = "netlify/functions"
+
 [build.environment]
   NODE_VERSION = "22.23.4"
 
