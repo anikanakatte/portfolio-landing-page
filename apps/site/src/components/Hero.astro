@@ -1,0 +1,71 @@
+---
+import IndexCard from './IndexCard.astro';
+import { SITE } from '../lib/site';
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="intro">
+      <h1 id="hero-title">Hi, I'm Anirudh. Welcome to my <em>corner of the internet.</em></h1>
+      <p class="lede">
+        I'm a Full Stack AI Engineer. Here I share what I'm building, what I'm reading, what I'm writing
+        about, and whatever else has my attention lately.
+      </p>
+      <div class="actions">
+        <a class="btn solid" href="#projects">See what I'm building</a>
+        {SITE.blogEnabled && <a class="btn" href="/blog/">Reading room →</a>}
+      </div>
+    </div>
+
+    <IndexCard class="author" aria-label="Author catalog card">
+      <div class="head">
+        <span class="callno">{'005.1\nKAN'}</span>
+        <span class="who">Kanakatte, Anirudh.</span>
+      </div>
+      <div class="body">
+        <span class="spacer" aria-hidden="true"></span>
+        <div>
+          <p class="indent">Full stack AI engineer / Anirudh Kanakatte. — The Web, {SITE.since}–</p>
+          <p class="indent">
+            {SITE.stack.join(', ')}.
+          </p>
+          <p class="indent">1. AI engineering. 2. Full stack development. 3. Learning in public.</p>
+        </div>
+      </div>
+      <span class="stamp">On shelf since {SITE.since}</span>
+    </IndexCard>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: 72px 56px; }
+  .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  h1 {
+    font: 400 clamp(2.2rem, 4.6vw, 3.6rem)/1.08 var(--f-display);
+    margin: 0 0 .45em; text-wrap: balance; letter-spacing: -.01em;
+  }
+  h1 em { font-style: normal; color: var(--rule-red); }
+  .lede { max-width: 46ch; color: var(--muted); font-size: 1.08rem; margin: 0; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  .author { padding: 16px 22px 44px; transform: rotate(-1.4deg); aspect-ratio: 5/3; max-width: 100%; }
+  .head { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; height: 38px; }
+  .who { font: 700 1rem/1.3 var(--f-type); }
+  .body { display: grid; grid-template-columns: auto 1fr; gap: 18px; margin-top: 4px; }
+  .body p { margin: 0; font: 400 .92rem/26px var(--f-type); }
+  .indent { padding-left: 1.6em; }
+  .spacer { width: 3.6em; }
+  .author .stamp { position: absolute; right: 18px; bottom: 22px; }
+
+  @media (max-width: 860px) {
+    .hero { padding-block: 40px 28px; }
+    .wrap { grid-template-columns: 1fr; gap: 32px; }
+    .author { transform: rotate(-1deg); aspect-ratio: auto; }
+  }
+  @media (max-width: 640px) {
+    /* Keep the 38px head so body text starts below the red rule. */
+    .head, .body { grid-template-columns: 1fr; gap: 4px; }
+    .spacer, .callno { display: none; }
+    .author { padding-bottom: 80px; }
+    .author .stamp { bottom: 36px; }
+  }
+</style>

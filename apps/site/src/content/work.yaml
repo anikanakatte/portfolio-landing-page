@@ -1,0 +1,26 @@
+# Work history shown on the "date due" slip (331.7). Sorted by date on the site, so file order
+# doesn't matter. Each entry needs a unique id and 1–3 bullets (2 is the house style).
+- id: flipkart
+  role: Consultant – UI Developer
+  org: Flipkart (via EnterpriseMinds)
+  start: Jul 2023
+  end: Now
+  bullets:
+    - Architected the AI copilot UI for Flipkart's enterprise BI platform (React, Redux, WebSockets), letting analysts query petabyte-scale data in conversation and cutting their workload by over 50%.
+    - Core UI engineer on the next-gen BI platform, projected to save $3M a year; built the frontend CI/CD and raised test coverage above 80% with Jest, React Testing Library and Playwright.
+- id: upskillist
+  role: UI Engineer
+  org: Upskillist
+  start: Dec 2021
+  end: Jun 2023
+  bullets:
+    - Rebuilt the signup flow in React, Gatsby and SCSS, lifting new signups by 25%.
+    - Shipped a support admin dashboard that made query resolution 50% faster, and a Netflix-style learning app MVP in React and TypeScript with 80+ courses.
+- id: infosys
+  role: Senior Systems Engineer
+  org: Infosys
+  start: Dec 2018
+  end: Aug 2021
+  bullets:
+    - Ran online and mobile banking for a U.S. bank with 5 million customers, holding 99% SLA uptime.
+    - Coordinated development and business teams to ship production hot-fixes, cutting resolution time by 20%.

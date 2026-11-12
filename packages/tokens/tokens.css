@@ -1,0 +1,25 @@
+/* The Stacks design tokens. Ported from the original design mockup. Light palette on :root, dark via prefers-color-scheme or [data-theme="dark"]. */
+:root{
+  --cabinet:#23463A; --cabinet-2:#2E5748; --on-cabinet:#E9E6D6; --brass:#B48E46; --brass-hi:#D9B872;
+  --ground:#E9ECE6; --ink:#1B2320; --muted:#56615B; --line:#C9CFC6;
+  --card:#FBFAF3; --card-ink:#1D2421; --card-muted:#5B635E; --card-edge:#D8D3C2;
+  --rule-red:#C0383A; --rule-blue:#A5BED6; --stamp:#5B3F9F;
+  --spine-1:#7A2E2E; --spine-2:#2F4B6E; --spine-3:#C9A24A; --spine-4:#3E5E44; --spine-5:#ECE6D2; --spine-6:#1F1F23; --spine-7:#B5532F;
+  --f-display:"Young Serif", Georgia, "Times New Roman", serif;
+  --f-type:"Courier Prime", "Courier New", ui-monospace, monospace;
+  --f-ui:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --shadow:0 1px 0 rgba(0,0,0,.06), 0 8px 20px -12px rgba(20,30,25,.45);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --cabinet:#15241E; --cabinet-2:#1D3229; --on-cabinet:#DCD8C6; --brass:#A9874A; --brass-hi:#CFAE6A;
+  --ground:#0F1613; --ink:#E4E6DF; --muted:#9AA59E; --line:#2A3631;
+  --card:#E7E3D4; --card-edge:#B9B4A2;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 24px -12px rgba(0,0,0,.8);
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --cabinet:#15241E; --cabinet-2:#1D3229; --on-cabinet:#DCD8C6; --brass:#A9874A; --brass-hi:#CFAE6A;
+  --ground:#0F1613; --ink:#E4E6DF; --muted:#9AA59E; --line:#2A3631;
+  --card:#E7E3D4; --card-edge:#B9B4A2;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 24px -12px rgba(0,0,0,.8);
+  color-scheme:dark; }

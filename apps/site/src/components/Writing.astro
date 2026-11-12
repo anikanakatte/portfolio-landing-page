@@ -1,0 +1,33 @@
+---
+import IndexCard from './IndexCard.astro';
+import SectionHead from './SectionHead.astro';
+import { SITE } from '../lib/site';
+// When SITE.blogEnabled flips on (phase 3), this reads the latest posts from /blog/rss.xml.
+---
+<section id="writing" aria-labelledby="writing-title">
+  <div class="wrap">
+    <SectionHead dewey="808" title="Writing" id="writing-title">
+      Essays and notes on what I'm building and learning. The full archive will live in the
+      reading room at anirudh.dev/blog.
+    </SectionHead>
+
+    {!SITE.blogEnabled && (
+      <IndexCard as="div" class="soon">
+        <div class="top"><span class="callno">{'808\nRDG'}</span></div>
+        <p class="lead">The reading room opens soon.</p>
+        <p>The first essays are still being typeset. Check back shortly.</p>
+        <span class="stamp">In processing</span>
+      </IndexCard>
+    )}
+  </div>
+</section>
+
+<style>
+  section { padding-block: 56px; }
+  .soon { max-width: 560px; padding: 14px 22px 56px; }
+  .top { display: flex; height: 40px; align-items: start; }
+  .soon p { font: 400 .92rem/26px var(--f-type); margin: 0; }
+  .soon .lead { font-weight: 700; }
+  .soon .stamp { position: absolute; right: 18px; bottom: 22px; }
+  @media (max-width: 640px) { section { padding-block: 40px; } }
+</style>

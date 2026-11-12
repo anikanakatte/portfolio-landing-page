@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.netlify/
+.DS_Store
+*.log
+.env
+# Local design reference (mockups, brief, chat transcript); not published.
+design/

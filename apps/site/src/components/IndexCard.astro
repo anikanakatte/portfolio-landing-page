@@ -1,0 +1,37 @@
+---
+// Card-catalog index card: card stock, one red header rule, blue ruling, rod hole at the bottom.
+interface Props {
+  as?: 'article' | 'div' | 'li' | 'form';
+  class?: string;
+  [key: string]: unknown;
+}
+const { as: Tag = 'article', class: className, ...rest } = Astro.props;
+---
+<Tag class:list={['card', className]} {...rest}><slot /></Tag>
+
+<style>
+  .card {
+    position: relative;
+    background-color: var(--card);
+    color: var(--card-ink);
+    border: 1px solid var(--card-edge);
+    border-radius: 2px;
+    box-shadow: var(--shadow);
+    background-image:
+      linear-gradient(to bottom, transparent 0 54px, var(--rule-red) 54px 55.5px, transparent 55.5px),
+      repeating-linear-gradient(to bottom, transparent 0 25px, var(--rule-blue) 25px 26px);
+    background-position: 0 0, 0 30px;
+  }
+  .card::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    width: 14px;
+    height: 14px;
+    margin-left: -7px;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35);
+  }
+</style>

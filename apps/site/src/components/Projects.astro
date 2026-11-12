@@ -1,0 +1,66 @@
+---
+import IndexCard from './IndexCard.astro';
+import SectionHead from './SectionHead.astro';
+import { getProjects } from '../lib/projects';
+
+const projects = await getProjects();
+---
+<section id="projects" aria-labelledby="projects-title">
+  <div class="wrap">
+    <SectionHead dewey="005" title="Projects" id="projects-title">
+      Things I've built, pulled straight from GitHub. Call numbers follow Dewey 005 (computer
+      programming) plus the first letters of the title.
+    </SectionHead>
+
+    {projects === null ? (
+      <p class="empty">Couldn't reach GitHub, so projects aren't shown in this local build.</p>
+    ) : projects.length === 0 ? (
+      <p class="empty">No projects filed yet. Tag a repo with the <code>portfolio</code> topic on GitHub.</p>
+    ) : (
+      <ul class="drawer" role="list">
+        {projects.map((p) => (
+          <IndexCard as="li" class="proj">
+            <div class="top">
+              <span class="callno">{p.callNo}</span>
+              <span class="callno">{p.years}</span>
+            </div>
+            <h3>{p.title}</h3>
+            {p.description && <p>{p.description}</p>}
+            {p.subjects.length > 0 && <p class="subj">Subjects: {p.subjects.join(' — ')}.</p>}
+            <div class="links">
+              {p.liveUrl && (
+                <a href={p.liveUrl} rel="noopener noreferrer" target="_blank">
+                  Live<span class="sr"> site for {p.title}</span> ↗
+                </a>
+              )}
+              <a href={p.sourceUrl} rel="noopener noreferrer" target="_blank">
+                Source<span class="sr"> code for {p.title}</span> ↗
+              </a>
+            </div>
+          </IndexCard>
+        ))}
+      </ul>
+    )}
+  </div>
+</section>
+
+<style>
+  section { padding-block: 56px; }
+  .drawer {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 22px;
+    list-style: none; margin: 0; padding: 0;
+  }
+  .proj { padding: 14px 20px 40px; display: flex; flex-direction: column; transition: transform .2s ease; }
+  .proj:hover { transform: translateY(-6px) rotate(-.4deg); }
+  .top { display: flex; justify-content: space-between; height: 40px; align-items: start; }
+  h3 { font: 700 1.08rem/26px var(--f-type); margin: 0; }
+  .proj p { font: 400 .9rem/26px var(--f-type); margin: 0; color: var(--card-ink); }
+  .proj .subj { color: var(--card-muted); }
+  .links { display: flex; gap: 16px; margin-top: auto; padding-top: 26px; font: 700 .82rem/1 var(--f-ui); }
+  .links a { text-decoration: underline; text-decoration-color: var(--rule-red); text-underline-offset: 3px; }
+  .sr {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .empty { color: var(--muted); font-family: var(--f-type); }
+  @media (max-width: 640px) { section { padding-block: 40px; } }
+</style>
