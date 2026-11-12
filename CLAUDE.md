@@ -20,8 +20,9 @@ Personal site for Anirudh Kanakatte (GitHub: `anikanakatte`). Today it's a singl
 - Toolchain: Node 22.23.4 (`.nvmrc`; run `nvm use`), pnpm 10.34.9 via corepack, Astro 7.4.2.
 - Done in phase 2: step 1 (scaffold), step 2 (Base layout, cabinet header with theme toggle, footer, IndexCard, Hero), step 3 (Projects from GitHub, Work slip, Writing placeholder). Draft PR #2.
 - Work history lives in `apps/site/src/content/work.yaml` (sorted by date on the site), filled from the Nov 2026 résumé: 2 bullets per role, outcome first. Never put phone/email/address on the site.
-- Résumé: a "View full résumé (PDF)" button under the Work slip links to the Google Drive PDF (`SITE.resumeUrl`). Not hosted in the repo, because it contains contact details and the repo is public. Update it with Drive's "Manage versions" so the link never changes.
-- Daily rebuild: `.github/workflows/rebuild.yml` POSTs to the `NETLIFY_BUILD_HOOK` repo secret at 06:00 IST.
+- Résumé: the "View full résumé (PDF)" button under the Work slip opens `/resume.pdf`, served by `netlify/functions/resume.mjs`. It proxies the public Google Doc's PDF export (doc ID in `DEFAULT_RESUME_DOC_ID`, overridable with the `RESUME_DOC_ID` env var), sends it `inline` so it opens in the browser's PDF viewer, CDN-caches it for 1 hour, and returns an uncached 502 if Google stops serving a PDF (for example, the doc's sharing changed). Edit the Google Doc to update the résumé. No PDF in the repo: it contains contact details and the repo is public.
+- Rebuild on change: `.github/workflows/rebuild.yml` runs daily at 06:00 IST, fingerprints the `portfolio`-tagged repos, and POSTs to the `NETLIFY_BUILD_HOOK` repo secret only if the fingerprint differs from the last rebuild (kept in the Actions cache). Manual run with `force` rebuilds regardless. No unconditional daily builds.
+- Netlify plan: legacy free plan (300 build minutes, 100 GB bandwidth), not credits.
 
 ## Decisions (2026-11-10)
 - Hero copy: "Hi, I'm Anirudh. Welcome to my corner of the internet." / "I'm a Full Stack AI Engineer. Here I share what I'm building, what I'm reading, what I'm writing about, and whatever else has my attention lately." Start year 2018.

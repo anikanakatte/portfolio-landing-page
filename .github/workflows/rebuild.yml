@@ -1,26 +1,86 @@
-# Rebuilds the live site every day so Projects picks up newly tagged / updated repos.
+# Rebuilds the live site only when the Projects section would change.
+#
+# Once a day it fingerprints every repo tagged `portfolio` (name, last push, description, website,
+# topics, language) and compares that with the fingerprint from the last rebuild, kept in the
+# Actions cache. Netlify is only called when they differ, e.g. a repo was tagged/untagged, pushed
+# to (README edits), or had its About details changed. Unchanged days cost nothing.
+#
 # Needs the repo secret NETLIFY_BUILD_HOOK (Netlify → Site configuration → Build & deploy →
 # Build hooks, branch: master). Scheduled workflows only run from the default branch.
-name: Daily rebuild
+name: Rebuild when projects change
 
 on:
   schedule:
     - cron: "30 0 * * *" # 00:30 UTC = 06:00 IST
-  workflow_dispatch: {} # "Run workflow" button in the Actions tab
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if nothing changed"
+        type: boolean
+        default: false
 
-permissions: {}
+permissions:
+  contents: read
+
+concurrency:
+  group: rebuild
+  cancel-in-progress: false
 
 jobs:
-  rebuild:
+  check-and-rebuild:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_USER: anikanakatte
     steps:
+      - name: Fingerprint portfolio repos
+        id: fp
+        run: |
+          gh api "/users/$GITHUB_USER/repos?per_page=100&type=owner" --jq '
+            [ .[] | select(.fork | not) | select(.topics | index("portfolio"))
+              | {name, pushed_at, description, homepage, topics, language} ]
+            | sort_by(.name)' > portfolio.json
+          echo "Tagged repos: $(jq length portfolio.json)"
+          echo "hash=$(sha256sum portfolio.json | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore fingerprint from last rebuild
+        uses: actions/cache/restore@v4
+        with:
+          path: last-fingerprint.txt
+          key: portfolio-fp-${{ github.run_id }}
+          restore-keys: portfolio-fp-
+
+      - name: Compare
+        id: cmp
+        run: |
+          last=$(cat last-fingerprint.txt 2>/dev/null || echo none)
+          echo "last=$last"
+          echo "now=${{ steps.fp.outputs.hash }}"
+          if [ "${{ inputs.force }}" = "true" ] || [ "$last" != "${{ steps.fp.outputs.hash }}" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Projects changed (or forced): rebuilding."
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No project changes: skipping rebuild."
+          fi
+
       - name: Trigger Netlify build
+        if: steps.cmp.outputs.changed == 'true'
         env:
           HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
         run: |
           if [ -z "$HOOK" ]; then
-            echo "::warning::NETLIFY_BUILD_HOOK secret is not set; skipping."
-            exit 0
+            echo "::error::NETLIFY_BUILD_HOOK secret is not set."
+            exit 1
           fi
           curl -fsS -X POST -d '{}' "$HOOK"
+          echo "${{ steps.fp.outputs.hash }}" > last-fingerprint.txt
+
+      # Only saved after a successful trigger, so a failed run retries the next day.
+      - name: Remember fingerprint
+        if: steps.cmp.outputs.changed == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: last-fingerprint.txt
+          key: portfolio-fp-${{ github.run_id }}
