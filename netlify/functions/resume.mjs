@@ -40,6 +40,9 @@ export default async () => {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `inline; filename="${FILENAME}"`,
       'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      // Netlify-only: `durable` shares one cached copy across all edge locations, so Google is
+      // hit about once an hour in total instead of once per edge. Netlify strips this header.
+      'Netlify-CDN-Cache-Control': 'public, durable, s-maxage=3600, stale-while-revalidate=86400',
     },
   });
 };
