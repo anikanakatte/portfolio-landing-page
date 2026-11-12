@@ -33,7 +33,7 @@ Source for www.anirudh.dev, a personal site built as "The Stacks": a library car
 - `.github/workflows/rebuild.yml` runs daily at 06:00 IST. It fingerprints the `portfolio`-tagged repos and calls the `NETLIFY_BUILD_HOOK` repo secret only when the fingerprint differs from the last rebuild (kept in the Actions cache). A manual run with `force` rebuilds regardless. There are no unconditional scheduled builds.
 
 ## Design: "The Stacks"
-Mockups are in `design/` (`prototype.html` = home, `blog.html` = reading room, `brief.html` = brief). Most text in them is placeholder.
+Mockups live in a local, git-ignored `design/` folder (`prototype.html` = home, `blog.html` = reading room, `brief.html` = brief) and are not committed. Use them only for layout and styles; their text is placeholder and must not be copied onto the site. If `design/` is missing, follow the existing components and tokens.
 
 Sections (nav labels are Dewey Decimal classes):
 
@@ -58,4 +58,4 @@ Visual system:
 - Phase 4: /now page, book sync, privacy-friendly analytics, drawer view transitions.
 
 ## History
-`design/chat-transcript.md` holds the design discussion behind these decisions. It's git-ignored; read it only when you need the reasoning.
+`design/chat-transcript.md` (local, git-ignored) holds the design discussion behind these decisions. Read it only when you need the reasoning.

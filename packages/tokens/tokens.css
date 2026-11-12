@@ -1,4 +1,4 @@
-/* The Stacks design tokens. Source: design/prototype.html. Light palette on :root, dark via prefers-color-scheme or [data-theme="dark"]. */
+/* The Stacks design tokens. Ported from the original design mockup. Light palette on :root, dark via prefers-color-scheme or [data-theme="dark"]. */
 :root{
   --cabinet:#23463A; --cabinet-2:#2E5748; --on-cabinet:#E9E6D6; --brass:#B48E46; --brass-hi:#D9B872;
   --ground:#E9ECE6; --ink:#1B2320; --muted:#56615B; --line:#C9CFC6;

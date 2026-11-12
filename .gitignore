@@ -5,4 +5,5 @@ dist/
 .DS_Store
 *.log
 .env
-design/chat-transcript.md
+# Local design reference (mockups, brief, chat transcript); not published.
+design/

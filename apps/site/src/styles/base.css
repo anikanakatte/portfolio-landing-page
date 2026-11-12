@@ -1,4 +1,4 @@
-/* Base styles and shared primitives for The Stacks. Ported from design/prototype.html. */
+/* Base styles and shared primitives for The Stacks. Ported from the original design mockup. */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
 body { margin: 0; background: var(--ground); color: var(--ink); font: 400 16px/1.55 var(--f-ui); }
