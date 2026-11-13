@@ -66,17 +66,27 @@ const tilt = ['-3deg', '2deg', '-1deg', '1.5deg'];
     color: var(--card-muted); text-align: left; padding: 12px 18px; border-bottom: 1.5px solid var(--rule-red);
   }
   td { padding: 16px 18px; border-bottom: 1px solid var(--rule-blue); vertical-align: top; font-size: .92rem; }
-  td:first-child { width: 180px; border-right: 1px solid var(--rule-red); }
+  /* Dates column shrinks to fit its stamp (width: 1% + nowrap) instead of a fixed width. */
+  td:first-child { width: 1%; white-space: nowrap; border-right: 1px solid var(--rule-red); }
   .role { font-weight: 700; }
-  .what { color: var(--card-muted); margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 6px; line-height: 1.5; }
-  .what li::marker { content: '– '; color: var(--rule-red); }
+  .what { color: var(--card-muted); margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; line-height: 1.5; }
+  /* Dash drawn with ::before: ::marker colours render inconsistently across browsers. */
+  .what li { position: relative; padding-left: 1.3em; }
+  .what li::before { content: '–'; position: absolute; left: 0; color: var(--rule-red); }
   .resume { margin-top: 22px; }
   .resume svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .fmt { font-weight: 400; opacity: .75; }
   .stamp { transform: rotate(var(--r, -3deg)); font-size: .78rem; white-space: nowrap; }
+  /* Phones: stack each row (date stamp above the role) so the role and bullets get the full
+     card width. The column headings are redundant once stacked. */
   @media (max-width: 640px) {
     section { padding-block: 40px; }
-    th, td { padding: 12px; }
-    td:first-child { width: auto; }
+    thead { display: none; }
+    table, tbody, tr, td { display: block; width: 100%; }
+    tr { padding: 16px 16px 18px; border-bottom: 1px solid var(--rule-blue); }
+    tr:first-child { border-top: 1.5px solid var(--rule-red); }
+    td { padding: 0; border: 0; font-size: .95rem; }
+    td:first-child { width: auto; border-right: 0; margin-bottom: 12px; }
+    .what { gap: 8px; line-height: 1.55; }
   }
 </style>
